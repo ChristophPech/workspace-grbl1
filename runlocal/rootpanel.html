@@ -1,0 +1,134 @@
+<!-- start chilipeppr.load() url: http://raw.githubusercontent.com/chilipeppr/element-rootpanel/master/auto-generated-widget.html -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+    
+
+    <!-- ChiliPeppr is based on bootstrap CSS. -->
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
+    <!-- Customized version of require.js for ChiliPeppr. Please see require.js docs for how
+    ChiliPeppr's dependency system works as it's based on require.js. -->
+    
+
+    <style type='text/css'>
+/* CSS for ChiliPeppr Widget */
+
+#pnlBody .container-fluid {
+}
+#pnlBody .pnlWorkspaceRtSidebarCollapsed {
+    /* padding-right: 45px; */
+    padding-right: 10px;
+}
+#pnlBody .pnlWorkspaceRtSidebarExpanded {
+    padding-right: 0;
+}
+#pnlRtSidebar {
+    position: relative;
+}
+#pnlWorkspace {
+    padding-left: 10px;
+}
+
+
+    </style>
+
+    <script type='text/javascript'>
+    //<![CDATA[
+// Make sure ChiliPeppr is ready to run and fully instantiated
+// including all of its dependencies like jquery, bootstrap, etc.
+cprequire(["chilipeppr_ready"], function () {
+
+    // Element / Flash Message
+    // http://jsfiddle.net/jlauer/qp7Em/
+    // "inline:com-chilipeppr-elem-flashmsg"
+    chilipeppr.load("#com-chilipeppr-flash",
+        "http://raw.githubusercontent.com/chilipeppr/element-flash/master/auto-generated-widget.html",
+        // "http://fiddle.jshell.net/chilipeppr/90698kax/show/light/",
+
+    function () {
+        console.log("mycallback got called after loading flash msg module");
+        console.log(chilipeppr);
+        require(["inline:com-chilipeppr-elem-flashmsg"], function (fm) {
+            //console.log("inside require of " + fm.id);
+            fm.init();
+            //console.log(fm.publish);
+            //chilipeppr.publish(fm.subscribe, "Loaded", "The ChiliPeppr Hardware Fiddle main app is loaded.");
+            //chilipeppr.publish(fm.subscribe, "", "The ChiliPeppr Hardware Fiddle main app is loaded.");
+            //chilipeppr.publish(fm.subscribe, "", "Third time is a charm");
+            //console.log(fm);
+            
+            // Panel / Header
+            //http://jsfiddle.net/chilipeppr/7aX6x/
+            chilipeppr.load(
+                "#pnlHeader",
+                "http://raw.githubusercontent.com/chilipeppr/element-panelheader/master/auto-generated-widget.html",
+                // "http://fiddle.jshell.net/chilipeppr/7aX6x/show/light/",
+        
+            function () {
+                //setTimeout(function() {
+                cprequire(
+                ["inline:com-chilipeppr-hdr"],
+        
+                function (hdr) {
+                    console.log("running of " + hdr.id);
+                    hdr.init();
+                    
+                    // LOAD THE WORKSPACE NOW
+                    chilipeppr.load(
+										  "#pnlWorkspace",
+										  "workspace.html",
+										  function() {
+										    // Callback after workspace loaded into #pnlWorkspace
+										    // Now use require.js to get reference to instantiated workspace
+										    cprequire(
+										      ["inline:com-chilipeppr-workspace-grbl"], // the id you gave your workspace
+										      function(myWorkspaceGrbl) {
+										        // Callback that is passed reference to the newly loaded workspace
+										        console.log("Workspace / grbl just got loaded.", myWorkspaceGrbl);
+										        myWorkspaceGrbl.init();
+										      }
+										    );
+										  }
+										);
+                    
+                });
+                //}, 1000);
+            });
+
+        });
+    });
+
+    /*
+    chilipeppr.load("pnlRtSidebar",
+        "http://fiddle.jshell.net/jlauer/WXN8J/show/light/");
+    */
+
+});
+    //]]>
+    </script>
+
+</head>
+
+<body>
+    <div id="pnlHeader"></div>
+    <div id="pnlBody">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- Flash Message -->
+                <div id="com-chilipeppr-flash"></div>
+                <!-- Main Workspace Area -->
+                <div id="pnlWorkspace" class="pnlWorkspaceRtSidebarCollapsed col-xs-12">Workspace area</div>
+                <!-- Right Sidebar (Workspace Picker, etc) Area -->
+                <div id="pnlRtSidebar" class=""></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<!-- end chilipeppr.load() url: http://raw.githubusercontent.com/chilipeppr/element-rootpanel/master/auto-generated-widget.html -->

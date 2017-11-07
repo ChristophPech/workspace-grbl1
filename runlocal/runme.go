@@ -24,13 +24,13 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 	if sURL == "" {
 		//workspace is the entry point,
-		sURL = "workspace.html"
+		sURL = "runlocal/index.html"
 	}
 
 	serveFile(w, r, "../"+sURL)
 }
 
-func replaceInline(dir, s string) string {
+func replaceInline(dir, fname, s string) string {
 	//serve require.js and app.js locally so we can manipulate them
 
 	//use local require.js
@@ -39,10 +39,12 @@ func replaceInline(dir, s string) string {
 	s = strings.Replace(s, "'//i2dcui.appspot.com/js/app'", "'//localhost/runlocal/app'", 1)
 	//remove slingshot to allow local files
 	s = strings.Replace(s, "//i2dcui.appspot.com/slingshot?url=", "", 1)
+	// disable cprequire_test
+	s = strings.Replace(s, "cprequire.apply(this, arguments);", "", 1)
 
-	if len(dir) > 0 {
+	if len(dir) > 0 && fname == "widget.html" {
 		//use nested root widgetes inside workspace
-		s = strings.Replace(s, "widget.", dir+"widget.", -1)
+		s = strings.Replace(s, "=\"widget.", "=\""+dir+"widget.", -1)
 	}
 
 	return s
@@ -65,10 +67,10 @@ func serveFile(w http.ResponseWriter, r *http.Request, name string) {
 		return
 	}
 
-	dir, _ := filepath.Split(name)
+	dir, fname := filepath.Split(name)
 	dir = dir[3:]
 
-	filedata := []byte(replaceInline(dir, s))
+	filedata := []byte(replaceInline(dir, fname, s))
 
 	http.ServeContent(w, r, d.Name(), d.ModTime(), bytes.NewReader(filedata))
 }
