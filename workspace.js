@@ -1,3 +1,13 @@
+var gitHubBaseDir="http://raw.githubusercontent.com/ChristophPech/";
+var autoGenMaster="master/auto-generated-";
+
+var isLocalHost=(location.hostname === "localhost" || location.hostname === "127.0.0.1");
+if(isLocalHost) {
+	gitHubBaseDir="http://localhost/";
+	autoGenMaster="";
+}
+
+
 /* global cpdefine chilipeppr cprequire $ cprequire_test */
 cprequire_test(["inline:com-chilipeppr-workspace-grbl"], function(ws) {
 
@@ -1334,31 +1344,9 @@ cpdefine("inline:com-chilipeppr-workspace-grbl", ["chilipeppr_ready"], function(
             // com-chilipeppr-grbl
 
             console.log('WORKSPACE: loading grbl widget');
-            var queryString = document.location.search;
-            if (queryString.indexOf('?') === 0) {
-                queryString = queryString.substr(1);
-            }
-            var parts = queryString.split('&');
-            var queryDictionary = {};
-            for (var i = 0; i < parts.length; i++) {
-                var p = parts[i];
-                var keyValuePair = p.split('=');
-                var key = keyValuePair[0];
-                var value = keyValuePair[1];
-                value = decodeURIComponent(value);
-                value = value.replace(/\+/g, ' ');
-                queryDictionary[key] = value;
-            }
-            var grblWidgetUrl = '';
-            if (queryDictionary['jDebug'] != 'undefined' && queryDictionary['jDebug'] == 1) {
-                grblWidgetUrl = "http://raw.githubusercontent.com/jpadie/grbl1-test-widget/master/auto-generated-widget.html"
-            }
-            else {
-                grblWidgetUrl = "https://raw.githubusercontent.com/jpadie/grbl1-test-widget/62452538a02a3b9ac34c0ed842781f98760fef97/auto-generated-widget.html";
-            }
             chilipeppr.load(
                 "#com-chilipeppr-widget-grbl-instance",
-                grblWidgetUrl,
+                gitHubBaseDir+'grbl1-test-widget/'+autoGenMaster+'widget.html',
                 function() {
                     cprequire(
                         ["inline:com-chilipeppr-widget-grbl"], //"inline:com-chilipeppr-widget-spconsole"],

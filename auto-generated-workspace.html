@@ -4,17 +4,22 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 
-    <title>Workspace / grbl</title>
+    <title>
+        workspace
+    </title>
 
     <!-- ChiliPeppr is based on bootstrap CSS. -->
     <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 
     <!-- Customized version of require.js for ChiliPeppr. Please see require.js docs for how
     ChiliPeppr's dependency system works as it's based on require.js. -->
-    <script type='text/javascript' src="//i2dcui.appspot.com/js/require.js"></script>
+    <script type='text/javascript' src="//chilipeppr.com/js/require.js"></script>
 
+    <!-- widget.css DON'T REMOVE -->
     <style type='text/css'>
-.workspace-dropdown li {
+        /* widget.css will get inlined here by runme.js. don't remove this comment or inlining will fail. */
+    </style>
+    <style type='text/css'>.workspace-dropdown li {
     padding: 6px 20px;
 }
 .btn-ws {
@@ -167,11 +172,25 @@ body.hover {
 .noheight {
     height:0;
 }
+</style>
+    <!-- DON'T REMOVE end widget.css -->
 
-    </style>
-
+    <!-- widget.js DON'T REMOVE -->
     <script type='text/javascript'>
-    //<![CDATA[
+        //<![CDATA[
+        /* widget.js will get inlined here by runme.js. don't remove this comment or inlining will fail. */
+        //]]>
+    </script>
+    <script type='text/javascript'>var gitHubBaseDir="http://raw.githubusercontent.com/ChristophPech/";
+var autoGenMaster="master/auto-generated-";
+
+var isLocalHost=(location.hostname === "localhost" || location.hostname === "127.0.0.1");
+if(isLocalHost) {
+	gitHubBaseDir="http://localhost/";
+	autoGenMaster="";
+}
+
+
 /* global cpdefine chilipeppr cprequire $ cprequire_test */
 cprequire_test(["inline:com-chilipeppr-workspace-grbl"], function(ws) {
 
@@ -228,10 +247,10 @@ cpdefine("inline:com-chilipeppr-workspace-grbl", ["chilipeppr_ready"], function(
         id: "com-chilipeppr-workspace-grbl", // Make the id the same as the cpdefine id
         name: "Workspace / grbl", // The descriptive name of your widget.
         desc: `A ChiliPeppr Workspace grbl.`,
-        url: "http://raw.githubusercontent.com/jpadie/workspace-grbl1/master/auto-generated-workspace.html", // The final URL of the working widget as a single HTML file with CSS and Javascript inlined. You can let runme.js auto fill this if you are using Cloud9.
-        fiddleurl: "http://ide.c9.io/jpadie/jpadiegrbl1wsclone", // The edit URL. This can be auto-filled by runme.js in Cloud9 if you'd like, or just define it on your own to help people know where they can edit/fork your widget
-        githuburl: "http://github.com/jpadie/workspace-grbl1", // The backing github repo
-        testurl: "http://jpadiegrbl1wsclone-jpadie.c9users.io/workspace.html", // The standalone working widget so can view it working by itself
+        url: "(auto fill by runme.js)", // The final URL of the working widget as a single HTML file with CSS and Javascript inlined. You can let runme.js auto fill this if you are using Cloud9.
+        fiddleurl: "(auto fill by runme.js)", // The edit URL. This can be auto-filled by runme.js in Cloud9 if you'd like, or just define it on your own to help people know where they can edit/fork your widget
+        githuburl: "(auto fill by runme.js)", // The backing github repo
+        testurl: "(auto fill by runme.js)", // The standalone working widget so can view it working by itself
         /**
          * Contains reference to the Console widget object. Hang onto the reference
          * so we can resize it when the window resizes because we want it to manually
@@ -1508,31 +1527,9 @@ cpdefine("inline:com-chilipeppr-workspace-grbl", ["chilipeppr_ready"], function(
             // com-chilipeppr-grbl
 
             console.log('WORKSPACE: loading grbl widget');
-            var queryString = document.location.search;
-            if (queryString.indexOf('?') === 0) {
-                queryString = queryString.substr(1);
-            }
-            var parts = queryString.split('&');
-            var queryDictionary = {};
-            for (var i = 0; i < parts.length; i++) {
-                var p = parts[i];
-                var keyValuePair = p.split('=');
-                var key = keyValuePair[0];
-                var value = keyValuePair[1];
-                value = decodeURIComponent(value);
-                value = value.replace(/\+/g, ' ');
-                queryDictionary[key] = value;
-            }
-            var grblWidgetUrl = '';
-            if (queryDictionary['jDebug'] != 'undefined' && queryDictionary['jDebug'] == 1) {
-                grblWidgetUrl = "http://raw.githubusercontent.com/jpadie/grbl1-test-widget/master/auto-generated-widget.html"
-            }
-            else {
-                grblWidgetUrl = "https://raw.githubusercontent.com/jpadie/grbl1-test-widget/62452538a02a3b9ac34c0ed842781f98760fef97/auto-generated-widget.html";
-            }
             chilipeppr.load(
                 "#com-chilipeppr-widget-grbl-instance",
-                grblWidgetUrl,
+                gitHubBaseDir+'grbl1-test-widget/'+autoGenMaster+'widget.html',
                 function() {
                     cprequire(
                         ["inline:com-chilipeppr-widget-grbl"], //"inline:com-chilipeppr-widget-spconsole"],
@@ -1591,9 +1588,8 @@ cpdefine("inline:com-chilipeppr-workspace-grbl", ["chilipeppr_ready"], function(
 
     }
 });
-
-    //]]>
-    </script>
+</script>
+    <!-- DON'T REMOVE end widget.js -->
 
 </head>
 
