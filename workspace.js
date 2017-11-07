@@ -21,11 +21,11 @@ cprequire_test(["inline:com-chilipeppr-workspace-grbl"], function(ws) {
      */
     var loadFlashMsg = function() {
         chilipeppr.load("#com-chilipeppr-widget-flash-instance",
-            "http://fiddle.jshell.net/chilipeppr/90698kax/show/light/",
+            "http://raw.githubusercontent.com/chilipeppr/element-flash/master/auto-generated-widget.html",
             function() {
                 console.log("mycallback got called after loading flash msg module");
                 cprequire(["inline:com-chilipeppr-elem-flashmsg"], function(fm) {
-                    //console.log("inside require of " + fm.id);
+                    console.log("inside require of flashmsg " + fm.id);
                     fm.init();
                 });
             }
