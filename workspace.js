@@ -83,17 +83,7 @@ cpdefine("inline:com-chilipeppr-workspace-grbl", ["chilipeppr_ready"], function(
          * and inits them.
          */
         init: function() {
-            /*
-            // Most workspaces will instantiate the Serial Port JSON Server widget
-            this.loadSpjsWidget();
-            // Most workspaces will instantiate the Serial Port Console widget
-            this.loadConsoleWidget(function() {
-                setTimeout(function() { $(window).trigger('resize'); }, 100);
-            });
-            */
             this.loadWidgets();
-
-            //this.loadTemplateWidget();
 
             // Create our workspace upper right corner triangle menu
             this.loadWorkspaceMenu();
@@ -143,92 +133,6 @@ cpdefine("inline:com-chilipeppr-workspace-grbl", ["chilipeppr_ready"], function(
          */
         onResize: function() {
             if (this.widgetConsole) this.widgetConsole.resize();
-        },
-        /**
-         * Load the Template widget via chilipeppr.load() so folks have a sample
-         * widget they can fork as a starting point for their own.
-         */
-        loadTemplateWidget: function(callback) {
-
-            chilipeppr.load(
-                "#com-chilipeppr-widget-template-instance",
-                "http://raw.githubusercontent.com/chilipeppr/widget-template/master/auto-generated-widget.html",
-                function() {
-                    // Callback after widget loaded into #myDivWidgetTemplate
-                    // Now use require.js to get reference to instantiated widget
-                    cprequire(
-                        ["inline:com-chilipeppr-widget-template"], // the id you gave your widget
-                        function(myObjWidgetTemplate) {
-                            // Callback that is passed reference to the newly loaded widget
-                            console.log("Widget / Template just got loaded.", myObjWidgetTemplate);
-                            myObjWidgetTemplate.init();
-                        }
-                    );
-                }
-            );
-        },
-        /**
-         * Load the Serial Port JSON Server widget via chilipeppr.load()
-         */
-        loadSpjsWidget: function(callback) {
-
-            var that = this;
-
-            chilipeppr.load(
-                "#com-chilipeppr-widget-serialport-instance",
-                "http://fiddle.jshell.net/chilipeppr/vetj5fvx/show/light/",
-                function() {
-                    console.log("mycallback got called after loading spjs module");
-                    cprequire(["inline:com-chilipeppr-widget-serialport"], function(spjs) {
-                        //console.log("inside require of " + fm.id);
-                        spjs.setSingleSelectMode();
-                        spjs.init({
-                            isSingleSelectMode: true,
-                            defaultBuffer: "default",
-                            defaultBaud: 115200,
-                            bufferEncouragementMsg: 'For your device please choose the "default" buffer in the pulldown and a 115200 baud rate before connecting.'
-                        });
-                        //spjs.showBody();
-                        //spjs.consoleToggle();
-
-                        that.widgetSpjs - spjs;
-
-                        if (callback) callback(spjs);
-
-                    });
-                }
-            );
-        },
-        /**
-         * Load the Console widget via chilipeppr.load()
-         */
-        loadConsoleWidget: function(callback) {
-            var that = this;
-            chilipeppr.load(
-                "#com-chilipeppr-widget-spconsole-instance",
-                "http://fiddle.jshell.net/chilipeppr/rczajbx0/show/light/",
-                function() {
-                    // Callback after widget loaded into #com-chilipeppr-widget-spconsole-instance
-                    cprequire(
-                        ["inline:com-chilipeppr-widget-spconsole"], // the id you gave your widget
-                        function(mywidget) {
-                            // Callback that is passed reference to your newly loaded widget
-                            console.log("My Console widget just got loaded.", mywidget);
-                            that.widgetConsole = mywidget;
-
-                            // init the serial port console
-                            // 1st param tells the console to use "single port mode" which
-                            // means it will only show data for the green selected serial port
-                            // rather than for multiple serial ports
-                            // 2nd param is a regexp filter where the console will filter out
-                            // annoying messages you don't generally want to see back from your
-                            // device, but that the user can toggle on/off with the funnel icon
-                            that.widgetConsole.init(true, /myfilter/);
-                            if (callback) callback(mywidget);
-                        }
-                    );
-                }
-            );
         },
         /**
          * Load the workspace menu and show the pubsubviewer and fork links using
@@ -1318,7 +1222,7 @@ cpdefine("inline:com-chilipeppr-workspace-grbl", ["chilipeppr_ready"], function(
                             spc.onRecvLine = newOnRecvLine;
                             spc.jsonOnQueue = newJsonOnQueue;
 
-                            spc.init(true, /^ok|^\n/);
+                            spc.init(true, /^ok|^\n|^<Idle|^\[GC:/);
 
                             // resize this console on a browser resize
                             $(window).on('resize', function(evt) {
