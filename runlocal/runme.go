@@ -2,11 +2,13 @@ package main
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"regexp"
 	"strconv"
@@ -58,6 +60,9 @@ func replaceInline(dir, fname, s string) string {
 }
 
 func fileToString(name string) (string, error) {
+	if strings.HasPrefix(name, "/") {
+		return "", errors.New("inv file name")
+	}
 	filedata, err := ioutil.ReadFile(name)
 	if err != nil {
 		return "", err
@@ -123,6 +128,9 @@ func autoGenTimer() {
 }
 
 func DoAutoGen(dirScan string) {
+	if dirScan == ".git" {
+		return
+	}
 	dirOrg, _ := os.Getwd()
 	os.Chdir(dirScan)
 
@@ -132,6 +140,8 @@ func DoAutoGen(dirScan string) {
 		if err != nil {
 			continue
 		}
+
+		log.Println("fileToString:", name)
 
 		now := time.Now().UTC()
 		dateS := strconv.Itoa(now.Year()) + "-" + strconv.Itoa(int(now.Month())) + "-" + strconv.Itoa(now.Day())
@@ -148,6 +158,8 @@ func DoAutoGen(dirScan string) {
 		err = ioutil.WriteFile(name, []byte(s), 0644)
 		log.Println("generated:", name, err)
 
+		//InvalidateGetURLCache(name)
+
 		files, _ := ioutil.ReadDir("./")
 		for _, f := range files {
 			if f.IsDir() {
@@ -161,8 +173,42 @@ func DoAutoGen(dirScan string) {
 	os.Chdir(dirOrg)
 }
 
+func InvalidateGetURLCache(name string) {
+	r, _ := regexp.Compile(`Push  URL: git@([^:]*):([^.]*)`)
+	out, _ := exec.Command("git", "remote", "show", "origin").Output()
+
+	m := r.FindAllStringSubmatch(string(out), -1)
+	if len(m) <= 0 || len(m[0]) < 3 {
+		return
+	}
+	sHost := m[0][1]
+	sRepo := m[0][2]
+
+	//log.Println("!!!!!!!!!!!!!!!", sHost, sRepo)
+
+	if sHost == "github.com" {
+		sURL := "http://i2dcui.appspot.com/geturl?forcerefresh=true&url=http://raw.githubusercontent.com/" + sRepo + "/master/" + name
+		r, _ := http.Get(sURL)
+		if r != nil {
+			log.Println("Invalidated:", r.StatusCode, r.ContentLength, sURL)
+			r.Body.Close()
+		}
+		sURL = "http://i2dcui.appspot.com/geturl?forcerefresh=true&url=https://raw.githubusercontent.com/" + sRepo + "/master/" + name
+		r, _ = http.Get(sURL)
+		if r != nil {
+			log.Println("Invalidated:", r.StatusCode, r.ContentLength, sURL)
+			r.Body.Close()
+		}
+	}
+
+	//http://i2dcui.appspot.com/geturl?forcerefresh=true&url=http://raw.githubusercontent.com/ChristophPech/workspace-grbl1/master/auto-generated-workspace.html
+
+	return
+}
+
 func InilineFileRegex(exp, s, pre, suf string) string {
 	r, _ := regexp.Compile(exp)
+
 	s = r.ReplaceAllStringFunc(s, func(s string) string {
 		sub := r.FindStringSubmatch(s)
 		sFName := sub[1]
