@@ -142,7 +142,7 @@ cpdefine("inline:com-chilipeppr-workspace-grbl", ["chilipeppr_ready"], function(
             // Workspace Menu with Workspace Billboard
             var that = this;
             chilipeppr.load(
-                "http://fiddle.jshell.net/chilipeppr/zMbL9/show/light/",
+                "http://raw.githubusercontent.com/chilipeppr/widget-pubsubviewer/master/auto-generated-widget.html",
                 function() {
                     require(['inline:com-chilipeppr-elem-pubsubviewer'], function(pubsubviewer) {
 
@@ -172,7 +172,7 @@ cpdefine("inline:com-chilipeppr-workspace-grbl", ["chilipeppr_ready"], function(
             console.log('WORKSPACE: loading zipwhip');
             chilipeppr.load(
                 "#com-chilipeppr-ws-zipwhip",
-                "http://fiddle.jshell.net/chilipeppr/56X9G/show/light/",
+                "https://raw.githubusercontent.com/chilipeppr/widget-zipwhip/master/auto-generated-widget.html",
                 function() {
                     require(["inline:com-chilipeppr-elem-zipwhip"], function(zipwhip) {
                         zipwhip.init();
@@ -252,7 +252,6 @@ cpdefine("inline:com-chilipeppr-workspace-grbl", ["chilipeppr_ready"], function(
                 "#com-chilipeppr-ws-macro",
                 "http://raw.githubusercontent.com/chilipeppr/widget-macro/master/auto-generated-widget.html",
                 function() {
-                    //"http://fiddle.jshell.net/chilipeppr/ZJ5vV/show/light/", function () {
                     cprequire(["inline:com-chilipeppr-widget-macro"], function(macro) {
                         macro.init();
                         // setup toggle button
@@ -277,73 +276,12 @@ cpdefine("inline:com-chilipeppr-workspace-grbl", ["chilipeppr_ready"], function(
                 }); //End Macro
 
 
-            /*
-            // Macro (original)
-            // com-chilipeppr-ws-autolevel
-            chilipeppr.load(
-                "#com-chilipeppr-ws-macro",
-                "http://fiddle.jshell.net/chilipeppr/ZJ5vV/show/light/",
-                function() {
-                    require(["inline:com-chilipeppr-widget-macro"], function(macro) {
-                        macro.init();
-                        // setup toggle button
-                        var alBtn = $('#com-chilipeppr-ws-gcode-menu .macro-button');
-                        var alDiv = $('#com-chilipeppr-ws-macro');
-                        alBtn.click(function() {
-                            if (alDiv.hasClass("hidden")) {
-                                // unhide
-                                alDiv.removeClass("hidden");
-                                alBtn.addClass("active");
-                                //autolevel.onDisplay();
-                            }
-                            else {
-                                alDiv.addClass("hidden");
-                                alBtn.removeClass("active");
-                                //autolevel.onUndisplay();
-                            }
-                            $(window).trigger('resize');
-
-                        });
-                    });
-                });
-                */
-
-            /*
-            // Macro (imania)
-            // com-chilipeppr-ws-autolevel
-            chilipeppr.load(
-                "#com-chilipeppr-ws-macro",
-                "http://jsfiddle.net/forstuvning/3gmfmnna/8/show/light/",
-                function() {
-                    require(["inline:com-chilipeppr-widget-macro"], function(macro) {
-                        macro.init();
-                        // setup toggle button
-                        var alBtn = $('#com-chilipeppr-ws-gcode-menu .macro-button');
-                        var alDiv = $('#com-chilipeppr-ws-macro');
-                        alBtn.click(function() {
-                            if (alDiv.hasClass("hidden")) {
-                                // unhide
-                                alDiv.removeClass("hidden");
-                                alBtn.addClass("active");
-                                //autolevel.onDisplay();
-                            }
-                            else {
-                                alDiv.addClass("hidden");
-                                alBtn.removeClass("active");
-                                //autolevel.onUndisplay();
-                            }
-                            $(window).trigger('resize');
-
-                        });
-                    });
-                });*/
-
-            // JScut
+              // JScut
             // com-chilipeppr-ws-jscut
             console.log('WORKSPACE: loading jscut');
             chilipeppr.load(
                 "#com-chilipeppr-ws-jscut",
-                "http://fiddle.jshell.net/chilipeppr/7ZzSV/show/light/",
+                "http://raw.githubusercontent.com/chilipeppr/widget-jscut/master/auto-generated-widget.html",
                 function() {
                     require(["inline:org-jscut-gcode-widget"], function(jscut) {
                         jscut.init();
@@ -542,7 +480,7 @@ cpdefine("inline:com-chilipeppr-workspace-grbl", ["chilipeppr_ready"], function(
                         var that = this;
                         chilipeppr.load(
                             "#com-chilipeppr-ws-gpio",
-                            "http://fiddle.jshell.net/benjamind/L3c7csaw/show/light/",
+                            "http://raw.githubusercontent.com/chilipeppr/widget-gpio/master/auto-generated-widget.html",
                             function() {
                                 require(["inline:net-delarre-widget-gpio"], function(gpio) {
                                     that.gpioInstance = gpio;
@@ -575,7 +513,7 @@ cpdefine("inline:com-chilipeppr-workspace-grbl", ["chilipeppr_ready"], function(
             // uses generic object so can cut/paste easier for others (or create actual object)
             var shuttlexpressObj = {
                 id: "shuttlexpress",
-                url: "http://fiddle.jshell.net/lordmundi/btyfqk7w/show/light/",
+                url: "http://raw.githubusercontent.com/chilipeppr/widget-shuttlexpress/master/auto-generated-widget.html",
                 requireName: "inline:com-chilipeppr-widget-shuttlexpress",
                 btn: null,
                 div: null,
@@ -677,7 +615,7 @@ cpdefine("inline:com-chilipeppr-workspace-grbl", ["chilipeppr_ready"], function(
                         var that = this;
                         chilipeppr.load(
                             "#com-chilipeppr-ws-touchplate",
-                            "http://fiddle.jshell.net/jarret/kvab65ot/show/light/",
+                            "http://raw.githubusercontent.com/chilipeppr/widget-touchplate/master/auto-generated-widget.html",
                             function() {
                                 require(["inline:com-chilipeppr-widget-touchplate"], function(touchPlate) {
                                     that.touchPlateInstance = touchPlate;
@@ -704,7 +642,6 @@ cpdefine("inline:com-chilipeppr-workspace-grbl", ["chilipeppr_ready"], function(
 
             // Element / Drag Drop
             // Load the dragdrop element into workspace toolbar
-            // http://jsfiddle.net/chilipeppr/Z9F6G/
             console.log('WORKSPACE: loading drag drop widget');
 
             chilipeppr.load("#com-chilipeppr-ws-gcode-dragdrop",
@@ -736,44 +673,15 @@ cpdefine("inline:com-chilipeppr-workspace-grbl", ["chilipeppr_ready"], function(
                 });
 
             // Workspace Menu with Workspace Billboard
-            // http://jsfiddle.net/jlauer/yC8Hv/
-
             console.log('WORKSPACE: loading billboard');
             chilipeppr.load(
                 "#com-chilipeppr-ws-gcode-menu-billboard",
                  "http://raw.githubusercontent.com/chilipeppr/widget-pubsubviewer/master/auto-generated-widget.html");
 
-            //Unsure what the purpose of this is; loading the wrong widgets. 
-            // MODIFY
-            // This is a fiddle that looks at the Grbl workspace being instantiated
-            // here and attaches 3 menu items. 1) the pubsub viewer dialog so users
-            // can see what pubsubs this workspace may publish or subscribe to 2) It
-            // lets them fork the workspace for their own use
-            /*
-            chilipeppr.load(
-                "http://fiddle.jshell.net/chilipeppr/zMbL9/show/light/",
-
-                function() {
-                    require(['inline:com-chilipeppr-elem-pubsubviewer'], function(pubsubviewer) {
-                        // you are asking the pubsubviewer to show its menu
-                        // inside the dom element in the 1st param, in the 2nd
-                        // param you are giving it which object to analyze to gather
-                        // its data, the 3rd param is just a name
-                        pubsubviewer.attachTo(
-                            $('#com-chilipeppr-ws-gcode-menu .dropdown-menu-ws'),
-                            ws,
-                            "Workspace");
-                    });
-                });
-                */
-
             // 3D Viewer
-            // http://jsfiddle.net/chilipeppr/y3HRF
             console.log('WORKSPACE: loading 3d viewer');
             chilipeppr.load("#com-chilipeppr-3dviewer",
-                //"http://fiddle.jshell.net/chilipeppr/y3HRF/show/light/",
                 "http://raw.githubusercontent.com/chilipeppr/widget-3dviewer/master/auto-generated-widget.html",
-
                 function() {
                     console.log("got callback done loading 3d");
 
@@ -890,14 +798,9 @@ cpdefine("inline:com-chilipeppr-workspace-grbl", ["chilipeppr_ready"], function(
 
 
             // Gcode List
-            // http://jsfiddle.net/chilipeppr/a4g5ds5n/
             console.log('WORKSPACE: loading gcode list');
             chilipeppr.load("#com-chilipeppr-gcode-list",
-                "http://raw.githubusercontent.com/jpadie/widget-gcodelist-jpaFork/master/auto-generated-widget.html",
-                //"http://fiddle.jshell.net/chilipeppr/a4g5ds5n/show/light/",
-                //"http://jsfiddle.net/jarret/0a53jy0x/show/light",
-
-
+                "https://raw.githubusercontent.com/chilipeppr/widget-gcodelist/master/auto-generated-widget.html",
                 function() {
                     cprequire(
                         ["inline:com-chilipeppr-widget-gcode"],
@@ -913,8 +816,7 @@ cpdefine("inline:com-chilipeppr-workspace-grbl", ["chilipeppr_ready"], function(
             console.log('WORKSPACE: loading axis widget');
             chilipeppr.load(
                 "com-chilipeppr-xyz-instance",
-      //          "http://fiddle.jshell.net/chilipeppr/gh45j/97/show/light/",
-                    "http://raw.githubusercontent.com/chilipeppr-grbl/widget-grbl-xyz/master/auto-generated-widget.html",
+                "http://raw.githubusercontent.com/chilipeppr-grbl/widget-grbl-xyz/master/auto-generated-widget.html",
 
       
                 function() {
@@ -1186,14 +1088,9 @@ cpdefine("inline:com-chilipeppr-workspace-grbl", ["chilipeppr_ready"], function(
 
 
             // Serial Port Log Window
-            // http://jsfiddle.net/chilipeppr/rczajbx0/
             console.log('WORKSPACE: loading serial port log');
             chilipeppr.load("#com-chilipeppr-serialport-log",
               "http://raw.githubusercontent.com/chilipeppr/widget-console/master/auto-generated-widget.html",
-
-               
-               // "http://fiddle.jshell.net/chilipeppr/rczajbx0/show/light/",
-
                 function() {
                     cprequire(
                         ["inline:com-chilipeppr-widget-spconsole"],
@@ -1244,7 +1141,6 @@ cpdefine("inline:com-chilipeppr-workspace-grbl", ["chilipeppr_ready"], function(
 
 
             // GRBL
-            // http://jsfiddle.net/jarret/b5L2rtgc/ //alternate test version of grbl controller
             // com-chilipeppr-grbl
 
             console.log('WORKSPACE: loading grbl widget');
@@ -1263,30 +1159,10 @@ cpdefine("inline:com-chilipeppr-workspace-grbl", ["chilipeppr_ready"], function(
                         });
                 });
 
-            /*
-            // WebRTC Client com-chilipeppr-webrtcclient
-            chilipeppr.load(
-                "com-chilipeppr-webrtcclient",
-                "http://fiddle.jshell.net/chilipeppr/qWj4f/show/light/",
-
-                function() {
-                    cprequire(
-                        ["inline:com-chilipeppr-widget-webrtc-client"],
-
-                        function(webrtcclient) {
-                            webrtcclient.init();
-                        });
-                });
-                */
-
             // Serial Port Selector
-            // http://jsfiddle.net/chilipeppr/vetj5fvx/
             console.log('WORKSPACE: loading serialport selector');
             chilipeppr.load("com-chilipeppr-serialport-spselector",
-                //"http://fiddle.jshell.net/chilipeppr/vetj5fvx/show/light/",
                 "http://raw.githubusercontent.com/chilipeppr/widget-spjs/master/auto-generated-widget.html",
-
-          
                 function() {
                     cprequire(
                         ["inline:com-chilipeppr-widget-serialport"],
