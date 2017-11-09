@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strconv"
 	"strings"
 	"time"
@@ -17,9 +18,12 @@ import (
 
 var (
 	doAutoGen = true
+	wwwDir    = ""
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
 	sURL := r.URL.Path[1:]
 
 	if sURL == "" {
@@ -27,7 +31,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		sURL = "runlocal/index.html"
 	}
 
-	serveFile(w, r, "../"+sURL)
+	serveFile(w, r, sURL)
 }
 
 func replaceInline(dir, fname, s string) string {
@@ -41,6 +45,9 @@ func replaceInline(dir, fname, s string) string {
 	s = strings.Replace(s, "//i2dcui.appspot.com/slingshot?url=", "", 1)
 	// disable cprequire_test
 	s = strings.Replace(s, "cprequire.apply(this, arguments);", "", 1)
+
+	// unminify
+	s = strings.Replace(s, "//code.jquery.com/jquery-2.1.0.min", "//code.jquery.com/jquery-2.1.0", 1)
 
 	if len(dir) > 0 && fname == "widget.html" {
 		//use nested root widgetes inside workspace
@@ -60,19 +67,24 @@ func fileToString(name string) (string, error) {
 
 func serveFile(w http.ResponseWriter, r *http.Request, name string) {
 
-	s, err := fileToString(name)
-	d, err2 := os.Stat(name)
+	s, err := fileToString(wwwDir + name)
+	d, err2 := os.Stat(wwwDir + name)
 	if err != nil || err2 != nil {
-		http.Error(w, "404 page not found", 404)
+		log.Println("404:", name)
+		if strings.Contains(name, ".js") {
+			http.Error(w, "debugger;", 404)
+		} else {
+			http.Error(w, "404 page not found", 404)
+		}
 		return
 	}
 
 	dir, fname := filepath.Split(name)
-	dir = dir[3:]
+	//dir = dir[3:]
 
 	filedata := []byte(replaceInline(dir, fname, s))
 
-	http.ServeContent(w, r, d.Name(), d.ModTime(), bytes.NewReader(filedata))
+	http.ServeContent(w, r, fname, d.ModTime(), bytes.NewReader(filedata))
 }
 
 func watchFiles(w *watcher.Watcher) {
@@ -125,15 +137,12 @@ func DoAutoGen(dirScan string) {
 		dateS := strconv.Itoa(now.Year()) + "-" + strconv.Itoa(int(now.Month())) + "-" + strconv.Itoa(now.Day())
 		dateS += " " + strconv.Itoa(now.Hour()) + ":" + strconv.Itoa(now.Minute())
 
-		sRepCSS := "<link rel=\"stylesheet\" type=\"text/css\" href=\"" + name + ".css\">"
-		sRepJS := "<script type='text/javascript' src=\"" + name + ".js\"></script>"
-		sFilCSS, _ := fileToString(name + ".css")
-		sFilJS, _ := fileToString(name + ".js")
-
-		s = strings.Replace(s, sRepCSS, "<style type='text/css'>"+sFilCSS+"</style>", 1)
-		s = strings.Replace(s, sRepJS, "<script type='text/javascript'>"+sFilJS+"</script>", 1)
 		s = strings.Replace(s, "<!--(auto-fill by runme.js-->", name, 1)
 		s = strings.Replace(s, "$$$widgetVersion$$$", dateS, 1)
+
+		s = InilineFileRegex(`<link rel="stylesheet" type="text/css" href="([^"]*)">`, s, "<style type='text/css'>", "</style>")
+		s = InilineFileRegex(`<script type='text/javascript' src="([^"]*)"></script>`, s, "<script type='text/javascript'>", "</script>")
+		//log.Println(name, m)
 
 		name = "auto-generated-" + name + ".html"
 		err = ioutil.WriteFile(name, []byte(s), 0644)
@@ -152,7 +161,27 @@ func DoAutoGen(dirScan string) {
 	os.Chdir(dirOrg)
 }
 
+func InilineFileRegex(exp, s, pre, suf string) string {
+	r, _ := regexp.Compile(exp)
+	s = r.ReplaceAllStringFunc(s, func(s string) string {
+		sub := r.FindStringSubmatch(s)
+		sFName := sub[1]
+
+		sFile, err := fileToString(sFName)
+		if err == nil {
+			log.Println("inlining:", sFName)
+			return pre + sFile + suf
+		}
+
+		return s
+	})
+	return s
+}
+
 func main() {
+	wwwDir, _ = os.Getwd()
+	wwwDir += "/../"
+
 	w := watcher.New()
 	//w.FilterOps(watcher.Rename)
 	go watchFiles(w)

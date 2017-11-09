@@ -1,7 +1,7 @@
 var gitHubBaseDir="http://raw.githubusercontent.com/ChristophPech/";
 var autoGenMaster="master/auto-generated-";
 
-var isLocalHost=(location.hostname === "localhost" || location.hostname === "127.0.0.1");
+var isLocalHost=(location.hostname === "localhost"||location.hostname === "127.0.0.1");
 if(isLocalHost) {
 	gitHubBaseDir="http://localhost/";
 	autoGenMaster="";
