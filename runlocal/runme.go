@@ -147,12 +147,12 @@ func DoAutoGen(dirScan string) {
 		dateS := strconv.Itoa(now.Year()) + "-" + strconv.Itoa(int(now.Month())) + "-" + strconv.Itoa(now.Day())
 		dateS += " " + strconv.Itoa(now.Hour()) + ":" + strconv.Itoa(now.Minute())
 
-		s = strings.Replace(s, "<!--(auto-fill by runme.js-->", name, 1)
-		s = strings.Replace(s, "$$$widgetVersion$$$", dateS, 1)
-
 		s = InilineFileRegex(`<link rel="stylesheet" type="text/css" href="([^"]*)">`, s, "<style type='text/css'>", "</style>")
 		s = InilineFileRegex(`<script type='text/javascript' src="([^"]*)"></script>`, s, "<script type='text/javascript'>", "</script>")
 		//log.Println(name, m)
+
+		s = strings.Replace(s, "<!--(auto-fill by runme.js-->", name, 1)
+		s = strings.Replace(s, "$$$widgetVersion$$$", dateS, 1)
 
 		name = "auto-generated-" + name + ".html"
 		err = ioutil.WriteFile(name, []byte(s), 0644)
